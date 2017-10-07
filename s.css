@@ -1,0 +1,12 @@
+body {
+  text-align: center;
+  background-image: radial-gradient(#fff 0%, #fafafa 100%);
+}
+
+.i, .i:visited, .i:hover {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  color: black;
+  text-decoration: none;
+}
