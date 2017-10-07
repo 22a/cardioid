@@ -1,0 +1,9 @@
+{
+  "name": "cardioid",
+  "version": "1.0.0",
+  "description": "Flebusism",
+  "main": "app.js",
+  "repository": "git@github.com:22a/cardioid.git",
+  "author": "Peter Meehan <meehanp2@tcd.ie>",
+  "license": "UNLICENSED"
+}
