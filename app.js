@@ -1,4 +1,6 @@
 import Snap from 'snapsvg'
+import css from './s.css'
+import mp3 from './art.mp3'
 
 const modulo = 200
 const padding = 20
