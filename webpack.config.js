@@ -48,6 +48,6 @@ module.exports = {
       title: 'Cardioid',
       template: 'index.ejs'
     }),
-    new FaviconsWebpackPlugin(path.resolve(__dirname) + '/fav.png')
+    new FaviconsWebpackPlugin('./fav.png')
   ]
 }
