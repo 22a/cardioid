@@ -1,4 +1,5 @@
-/* global Snap */
+import Snap from 'snapsvg'
+
 const modulo = 200
 const padding = 20
 const radius = (Math.min(window.innerHeight, window.innerWidth) / 2 - padding)
