@@ -51,4 +51,4 @@ const draw = () => {
   factor += 0.005
 }
 
-setInterval(draw, 100)
+setInterval(() => Promise.resolve().then(draw), 100)
