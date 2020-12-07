@@ -2,7 +2,7 @@ import Snap from 'snapsvg'
 import css from './s.css'
 import mp3 from './art.mp3'
 
-const modulo = 200
+
 const padding = 20
 const radius = (Math.min(window.innerHeight, window.innerWidth) / 2 - padding)
 const circleCenterX = radius + (padding / 2)
@@ -27,6 +27,8 @@ const joinTwoNumbers = (a, b) => {
 
   surface.line(aX, aY, bX, bY).attr({
     stroke: `hsl(${color}, 100%, 50%)`,
+    //  stroke: `black`,
+     opacity: 0.5,
     strokeWidth: 1,
     strokeLinecap: 'round'
   })
@@ -41,16 +43,79 @@ const getCoordForNumber = (number) => {
   return [x, y]
 }
 
-let factor = 1
+let factor = getParameterByName("f") || 1
+let modulo = getParameterByName("m") || 200
+document.querySelector('#factor').value = factor * 1.0;
+document.querySelector('#modulo').value = modulo * 1.0;
 
-const draw = () => {
+
+const _draw = () => {
   surface.clear()
   for (let i = 0; i < modulo; i++) {
     joinTwoNumbers(i, i * factor % modulo)
   }
   // const [intPart, decimal] = `${factor}`.split('.')
   // surface.text(5, 15, `Factor: ${intPart}${decimal ? '.' + decimal.charAt(0) : ''}`)
-  factor += 0.005
+  document.querySelector('#ratio').innerHTML = modulo/factor;
+
 }
 
-setInterval(() => Promise.resolve().then(draw), 100)
+const draw = () => {
+  _draw();
+  factor *= 1.0
+  factor += 0.01
+  document.querySelector('#factor').value = factor;
+
+}
+
+
+function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+
+function downloadSVGAsText() {
+  const svg = document.querySelector('svg');
+  const base64doc = btoa(unescape(encodeURIComponent(svg.outerHTML)));
+  const a = document.createElement('a');
+  const e = new MouseEvent('click');
+  a.download = factor + "-" + modulo + '.svg';
+  a.href = 'data:image/svg+xml;base64,' + base64doc;
+  a.dispatchEvent(e);
+}
+
+
+let intervalId;
+
+function pause() {
+  clearInterval(intervalId);
+}
+
+function play() {
+  intervalId = setInterval(() => Promise.resolve().then(draw), 5);
+}
+
+_draw();
+
+function updateFactor() {
+  factor = document.querySelector('#factor').value * 1.0;
+  _draw();
+}
+
+function updateModulo() {
+  modulo = document.querySelector('#modulo').value * 1.0;
+  _draw();
+}
+
+const downloadSVG = document.querySelector('#downloadSVG');
+downloadSVG.addEventListener('click', downloadSVGAsText);
+document.querySelector('#play').addEventListener('click', play);
+document.querySelector('#pause').addEventListener('click', pause);
+
+document.querySelector('#factor').addEventListener('change', updateFactor);
+document.querySelector('#modulo').addEventListener('change', updateModulo);
